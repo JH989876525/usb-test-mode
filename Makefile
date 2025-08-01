@@ -3,16 +3,18 @@
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-PKG_CONFIG=${OECORE_NATIVE_SYSROOT}/usr/bin/pkg-config
+PKG_CONFIG = ${OECORE_NATIVE_SYSROOT}/usr/bin/pkg-config
+TARGRT = USB_TEST_MODE
+OBJ = ${TARGRT}.o
 
-TARGRT=USB_TEST_MODE
+CFLAGS += -O2 `${PKG_CONFIG} --cflags libusb-1.0`
+LDFLAGS += -Wl,--hash-style=both `${PKG_CONFIG} --libs libusb-1.0`
 
-OBJ=${TARGRT}.o
 ${TARGRT}: $(OBJ)
-	$(CC) $(OBJ) -lusb-1.0 -o ${TARGRT} `${PKG_CONFIG} --libs --cflags libusb-1.0`
+	$(CC) $(OBJ) -o ${TARGRT} $(LDFLAGS)
 
 ${TARGRT}.o: ${TARGRT}.c
-	$(CC) -O2 -c ${TARGRT}.c `${PKG_CONFIG} --libs --cflags libusb-1.0`
+	$(CC) $(CFLAGS) -c ${TARGRT}.c
 
-clean :
-	rm *.o ${TARGRT}
+clean:
+	rm -f *.o ${TARGRT}
