@@ -12,7 +12,8 @@ PV = "1.0+git${SRCPV}"
 SRC_URI = "git://git@github.com/JH989876525/usb-test-mode.git;branch=main;protocol=ssh"
 SRCREV = "70fd1c0094c606ba1965994a84c0b0a98217ef68"
 
-S = "${WORKDIR}/git"
+UNPACKDIR ??= "${WORKDIR}"
+S = "${UNPACKDIR}/git"
 
 CVE_PRODUCT = "usb_test_mode"
 
