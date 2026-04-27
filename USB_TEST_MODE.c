@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2025 innodisk Crop.
+ * Copyright (c) 2026 innodisk Crop.
  * 
  * This software is released under the MIT License.
  * https://opensource.org/licenses/MIT
@@ -168,7 +168,10 @@ int main(int argc, char **argv) {
             test_mode = TEST_PACKET;
         } else {
             printf("Select USB 2.0 Mode (1:J, 2:K, 3:SE0, 4:Packet, 5:Force): ");
-            scanf("%d", &test_mode);
+            if (scanf("%d", &test_mode) != 1) {
+				fprintf(stderr, "Error: Invalid input. Please enter a number.\n");
+				return -1; 
+			}
         }
     }
 
@@ -180,7 +183,10 @@ int main(int argc, char **argv) {
         }
     } else {
         printf("Enter Port (1-8): ");
-        scanf("%d", &target_port);
+        if (scanf("%d", &target_port) != 1) {
+            fprintf(stderr, "Error: Invalid input. Please enter a number.\n");
+            return -1;
+        }
         set_usb_test_mode(handle, test_mode, target_port, wValue);
     }
 
