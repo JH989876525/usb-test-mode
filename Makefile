@@ -5,7 +5,7 @@
 
 # --- Variables ---
 # Use standard names (TARGET instead of TARGRT)
-TARGET     := USB_TEST_MODE
+TARGET     := usb-test-mode
 PKG_CONFIG := $(OECORE_NATIVE_SYSROOT)/usr/bin/pkg-config
 
 GIT_HASH := $(shell git rev-parse --short HEAD)

@@ -28,9 +28,9 @@ Reset the power of system between each test.
     ```bash
     lsusb -t
     ```
-2. Run `USB_TEST_MODE`.
+2. Run `usb-test-mode`.
     ```bash
-    sudo ./USB_TEST_MODE
+    sudo ./usb-test-mode
     ```
 3. Select the USB device number according to bus ID & device ID from `lsusb`.
    ```bash
@@ -42,7 +42,7 @@ Reset the power of system between each test.
 
 - `Auto mode` : Auto select test mode and enable all available port of device into compliance mode.
     ```bash
-    sudo ./USB_TEST_MODE -a
+    sudo ./usb-test-mode -a
     ```
 
 # FAQ
