@@ -88,6 +88,8 @@ int main(int argc, char **argv) {
     bool auto_mode = false;
     int opt;
 
+    printf("Software Version: %s\n", GIT_REVISION);
+
     // Command line parsing
     static struct option long_options[] = {
         {"auto", no_argument, 0, 'a'},

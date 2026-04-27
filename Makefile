@@ -1,20 +1,40 @@
-# Copyright (c) 2023 innodisk Crop.
+# Copyright (c) 2026 innodisk Crop.
 # 
 # This software is released under the MIT License.
 # https://opensource.org/licenses/MIT
 
-PKG_CONFIG = ${OECORE_NATIVE_SYSROOT}/usr/bin/pkg-config
-TARGRT = USB_TEST_MODE
-OBJ = ${TARGRT}.o
+# --- Variables ---
+# Use standard names (TARGET instead of TARGRT)
+TARGET     := USB_TEST_MODE
+PKG_CONFIG := $(OECORE_NATIVE_SYSROOT)/usr/bin/pkg-config
 
-CFLAGS += -O2 `${PKG_CONFIG} --cflags libusb-1.0`
-LDFLAGS += -Wl,--hash-style=both `${PKG_CONFIG} --libs libusb-1.0`
+GIT_HASH := $(shell git rev-parse --short HEAD)
+GIT_DIRTY := $(shell git diff --quiet || echo "-dirty")
 
-${TARGRT}: $(OBJ)
-	$(CC) $(OBJ) -o ${TARGRT} $(LDFLAGS)
+# Dynamically find source and object files
+SRCS       := $(TARGET).c
+OBJS       := $(SRCS:.c=.o)
 
-${TARGRT}.o: ${TARGRT}.c
-	$(CC) $(CFLAGS) -c ${TARGRT}.c
+# Flags
+# Use := for simple expansion to improve performance
+CFLAGS     += -O2 $(shell $(PKG_CONFIG) --cflags libusb-1.0) -DGIT_REVISION=\"$(GIT_HASH)$(GIT_DIRTY)\"
+LDFLAGS    += -Wl,--hash-style=both $(shell $(PKG_CONFIG) --libs libusb-1.0)
 
+# --- Rules ---
+
+# The first target is the default when running 'make'
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+
+# Pattern rule for object files
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Standard clean
 clean:
-	rm -f *.o ${TARGRT}
+	rm -f $(OBJS) $(TARGET)
+
+# --- Special Targets ---
+.PHONY: all clean
