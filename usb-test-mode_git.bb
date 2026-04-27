@@ -15,7 +15,7 @@ SRCREV = "70fd1c0094c606ba1965994a84c0b0a98217ef68"
 UNPACKDIR ??= "${WORKDIR}"
 S = "${UNPACKDIR}/git"
 
-CVE_PRODUCT = "usb_test_mode"
+CVE_PRODUCT = "usb-test-mode"
 
 do_configure() {
     echo "No configure step needed for usb-test-mode"
